@@ -2,6 +2,7 @@ package com.gabrieltk.mini_ecommerce.service;
 
 import com.gabrieltk.mini_ecommerce.dto.ProdutoRequest;
 import com.gabrieltk.mini_ecommerce.dto.ProdutoResponse;
+import com.gabrieltk.mini_ecommerce.exception.ProdutoNotFoundException;
 import com.gabrieltk.mini_ecommerce.mapper.ProdutoMapper;
 import com.gabrieltk.mini_ecommerce.model.Produto;
 import com.gabrieltk.mini_ecommerce.repository.ProdutoRepository;
@@ -34,14 +35,14 @@ public class ProdutoService {
 
     public ProdutoResponse buscarPorId(Long id) {
         Produto produto = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
 
         return ProdutoMapper.toResponse(produto);
     }
 
     public ProdutoResponse atualizar(Long id, ProdutoRequest request) {
         Produto produto = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+                .orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
 
         produto.setNome(request.nome());
         produto.setDescricao(request.descricao());
@@ -55,7 +56,7 @@ public class ProdutoService {
 
     public void remover(Long id) {
         if (!repository.existsById(id)) {
-            throw new RuntimeException("Produto não encontrado");
+            throw new ProdutoNotFoundException("Produto não encontrado");
         }
 
         repository.deleteById(id);
