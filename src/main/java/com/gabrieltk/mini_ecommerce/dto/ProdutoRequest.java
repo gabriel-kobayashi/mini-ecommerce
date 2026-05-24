@@ -20,6 +20,9 @@ public record ProdutoRequest(
 
         @NotNull(message = "Estoque é obrigatório")
         @Min(value = 0, message = "Estoque não pode ser negativo ")
-        Integer estoque
+        Integer estoque,
+
+        @NotNull(message = "categoriaId é obrigatório")
+        Long categoriaId
 ) {
 }

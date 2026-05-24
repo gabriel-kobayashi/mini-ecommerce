@@ -2,6 +2,7 @@ package com.gabrieltk.mini_ecommerce.mapper;
 
 import com.gabrieltk.mini_ecommerce.dto.ProdutoRequest;
 import com.gabrieltk.mini_ecommerce.dto.ProdutoResponse;
+import com.gabrieltk.mini_ecommerce.model.Categoria;
 import com.gabrieltk.mini_ecommerce.model.Produto;
 
 import java.util.List;
@@ -24,7 +25,8 @@ public class ProdutoMapper {
                 produto.getNome(),
                 produto.getDescricao(),
                 produto.getPreco(),
-                produto.getEstoque()
+                produto.getEstoque(),
+                produto.getCategoria().getNome()
         );
     }
 
