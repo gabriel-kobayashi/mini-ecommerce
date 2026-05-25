@@ -3,6 +3,7 @@ package com.gabrieltk.mini_ecommerce.service;
 import com.gabrieltk.mini_ecommerce.dto.ItemPedidoRequest;
 import com.gabrieltk.mini_ecommerce.dto.PedidoRequest;
 import com.gabrieltk.mini_ecommerce.dto.PedidoResponse;
+import com.gabrieltk.mini_ecommerce.exception.EstoqueInsuficienteException;
 import com.gabrieltk.mini_ecommerce.exception.PedidoNotFoundException;
 import com.gabrieltk.mini_ecommerce.exception.ProdutoNotFoundException;
 import com.gabrieltk.mini_ecommerce.mapper.PedidoMapper;
@@ -11,6 +12,7 @@ import com.gabrieltk.mini_ecommerce.model.Pedido;
 import com.gabrieltk.mini_ecommerce.model.Produto;
 import com.gabrieltk.mini_ecommerce.repository.PedidoRepository;
 import com.gabrieltk.mini_ecommerce.repository.ProdutoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,6 +30,7 @@ public class PedidoService {
         this.produtoRepository = produtoRepository;
     }
 
+    @Transactional
     public PedidoResponse criarPedido(PedidoRequest request) {
         Pedido pedido = PedidoMapper.toEntity(request);
 
@@ -36,8 +39,17 @@ public class PedidoService {
         BigDecimal valorTotal = BigDecimal.ZERO;
 
         for(ItemPedidoRequest itemRequest: request.itens()) {
+
             Produto produto = produtoRepository.findById(itemRequest.productId())
                     .orElseThrow(() -> new ProdutoNotFoundException("Produto não encontrado"));
+
+            if (produto.getEstoque() < itemRequest.quantidade()) {
+                throw new EstoqueInsuficienteException("Estoque insuficiente para o produto " + produto.getNome());
+            }
+
+            produto.setEstoque(
+                    produto.getEstoque() - itemRequest.quantidade()
+            );
 
             ItemPedido itemPedido = new ItemPedido();
 
