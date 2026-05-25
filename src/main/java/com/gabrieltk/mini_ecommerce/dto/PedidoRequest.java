@@ -1,4 +1,10 @@
 package com.gabrieltk.mini_ecommerce.dto;
 
-public record PedidoRequest() {
+
+
+import java.util.List;
+
+public record PedidoRequest(
+        List<ItemPedidoRequest> itens
+) {
 }

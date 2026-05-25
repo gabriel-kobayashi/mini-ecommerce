@@ -1,4 +1,10 @@
 package com.gabrieltk.mini_ecommerce.dto;
 
-public record ItemPedidoResponse() {
+import java.math.BigDecimal;
+
+public record ItemPedidoResponse(
+        String produto,
+        Integer quantidade,
+        BigDecimal precoUnitario
+) {
 }
