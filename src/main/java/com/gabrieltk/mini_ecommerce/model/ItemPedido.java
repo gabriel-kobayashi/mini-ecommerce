@@ -24,6 +24,8 @@ public class ItemPedido {
 
     private BigDecimal precoUnitario;
 
+    private BigDecimal subtotal;
+
     @ManyToOne
     @JoinColumn(name = "produto_id")
     private Produto produto;

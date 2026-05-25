@@ -26,6 +26,6 @@ public class Pedido {
 
     private BigDecimal valorTotal;
 
-    @OneToMany(mappedBy = "pedido")
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<ItemPedido> itens;
 }
