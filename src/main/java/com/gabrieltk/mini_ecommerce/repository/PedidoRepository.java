@@ -1,4 +1,7 @@
 package com.gabrieltk.mini_ecommerce.repository;
 
-public interface PedidoRepository {
+import com.gabrieltk.mini_ecommerce.model.Pedido;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PedidoRepository extends JpaRepository<Pedido, Long> {
 }
