@@ -80,6 +80,14 @@ public class PedidoService {
         return PedidoMapper.toResponse(pedidoSalvo);
     }
 
+    public List<PedidoResponse> listar() {
+        List<Pedido> pedidos = pedidoRepository.findAll();
+
+        return pedidos.stream()
+                .map(PedidoMapper::toResponse)
+                .toList();
+    }
+
     public PedidoResponse buscarPorId(Long id) {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado"));

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController {
@@ -22,6 +24,12 @@ public class PedidoController {
     public ResponseEntity<PedidoResponse> criarPedido(@Valid @RequestBody PedidoRequest request) {
         PedidoResponse response = service.criarPedido(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PedidoResponse>> listar() {
+        List<PedidoResponse> responses = service.listar();
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/{id}")
